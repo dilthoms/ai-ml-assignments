@@ -1,8 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-
-def create():
+def sigmoid(z):
+    s = 1.0/(1+np.exp(-z))
+    return s
+def create_simple_dataset():
+    np.random.seed(0)
     N = 100 # number of points per class
     D = 2 # dimensionality
     K = 2 # number of classes
