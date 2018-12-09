@@ -37,14 +37,32 @@ def create_simple_dataset():
     plt.show()
     return X_train,yhat_train,X_test,yhat_test
 
-def vis_classifier(X_test,yhat_test,w,b):
+def vis_classifier(X_test,yhat_test,w,b,predict):
     # plot the resulting classifier
     h = 0.02
     x_min, x_max = X_test[0,:].min(), X_test[0,:].max()
     y_min, y_max = X_test[1,:].min(), X_test[1,:].max()
     xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
                          np.arange(y_min, y_max, h))
-    act = np.dot(np.c_[xx.ravel(), yy.ravel()], w) + b
+    act = predict(np.c_[xx.ravel(), yy.ravel()].T, w,b)
+
+    res = act >= 0.5
+    res = res.reshape(xx.shape)
+    plt.figure(1)
+    plt.title("Classifier Visualization")
+    plt.contourf(xx, yy, res, cmap=plt.cm.Spectral, alpha=0.8)
+    plt.scatter(X_test.T[:, 0], X_test.T[:, 1], c=yhat_test[0,:], s=40, cmap=plt.cm.Spectral)
+    plt.xlim(xx.min(), xx.max())
+    plt.ylim(yy.min(), yy.max())
+    plt.show()
+def vis_classifier_nn(X_test,yhat_test,param_dict,predict):
+    # plot the resulting classifier
+    h = 0.02
+    x_min, x_max = X_test[0,:].min(), X_test[0,:].max()
+    y_min, y_max = X_test[1,:].min(), X_test[1,:].max()
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+                         np.arange(y_min, y_max, h))
+    act = predict(np.c_[xx.ravel(), yy.ravel()].T, param_dict)
 
     res = act >= 0.5
     res = res.reshape(xx.shape)
