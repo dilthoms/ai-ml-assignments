@@ -11,7 +11,7 @@ def create_simple_dataset():
     K = 2 # number of classes
     X = np.zeros((N*K,D)) # data matrix (each row = single example)
     yhat = np.zeros(N*K, dtype='uint8') # class labels
-    for j in xrange(K):
+    for j in range(K):
       ix = range(N*j,N*(j+1))
       r = np.linspace(0.0,1,N) # radius
       t = np.linspace(j*4,(j+1)*4,N) + np.random.randn(N)*0.2 # theta
@@ -20,7 +20,7 @@ def create_simple_dataset():
 
 
     # lets visualize the data:
-    X = X.T
+    X = X.T.astype(np.float32)
     yhat =yhat.reshape(1,yhat.shape[0])
     perm = np.random.permutation(X.shape[1])
     train_num = int(X.shape[1]*0.8)
